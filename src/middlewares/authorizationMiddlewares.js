@@ -41,12 +41,14 @@ export async function validateSignInBody(req, res,next) {
 
 export async function validateSignInCredentials(req, res, next) {
     const user = req.body;
-    const { rows: dbUser} = await authorizationRepository.verifySignIpData(user.email);
+    const { rows: dbUser} = await authorizationRepository.verifySignInData(user.email);
 
     if (dbUser.length === 0 || !compareSync(user.password, dbUser[0].password)) {
         res.sendStatus(401);
         return;
     }
+
+    res.locals.userData = {id: dbUser[0].id, name: dbUser[0].name};
 
     next();
 }

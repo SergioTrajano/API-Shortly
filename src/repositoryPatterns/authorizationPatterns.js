@@ -14,7 +14,7 @@ async function signUpNewUser(newUser) {
     `, [newUser.name, newUser.email, newUser.password]);
 }
 
-async function verifySignIpData(email) {
+async function verifySignInData(email) {
     return connection.query(`
         SELECT *
         FROM users
@@ -25,5 +25,5 @@ async function verifySignIpData(email) {
 export const authorizationRepository = {
     verifyExistingEmail,
     signUpNewUser,
-    verifySignIpData,
+    verifySignInData,
 }
