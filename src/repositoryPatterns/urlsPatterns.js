@@ -35,9 +35,28 @@ async function increaseVisitCount(shortUrl) {
     `, [shortUrl]);
 }
 
+async function selectUrlByIdFromUserId(userId, urlId) {
+    return connection.query(`
+        SELECT *
+        FROM urls
+        WHERE 
+            urls.id=$1 AND
+            urls."userId"=$2
+    `, [urlId, userId]);
+}
+
+async function deleteUrlById(urlId) {
+    return connection.query(`
+        DELETE FROM urls
+        WHERE id=$1
+    `, [urlId]);
+}
+
 export const urlRepository = {
     insertShortUrl,
     selectUrlById,
     selectUrlByShortUrl,
     increaseVisitCount,
+    selectUrlByIdFromUserId,
+    deleteUrlById,
 }

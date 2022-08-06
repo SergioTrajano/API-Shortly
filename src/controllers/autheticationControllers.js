@@ -23,7 +23,6 @@ export async function signUp(req, res) {
 export async function signIn(req, res) {
     const secretKey = process.env.JWT_SECRETKEY;
 
-
     const token = jwt.sign(res.locals.userData, secretKey);
 
     res.send(token).status(200);

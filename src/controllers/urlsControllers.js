@@ -31,3 +31,16 @@ export async function directShortUrlToUrl(req, res) {
         res.sendStatus(500);
     }
 }
+
+export async function deleteUrl(req, res) {
+    const urlId = req.params.id;
+
+    try {
+        await urlRepository.deleteUrlById(urlId);
+
+        res.sendStatus(204);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}

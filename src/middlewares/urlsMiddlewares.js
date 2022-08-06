@@ -41,3 +41,17 @@ export async function verifyShortUrl(req, res, next) {
 
     next();
 }
+
+export async function verifyIfUrlBelongsToUser(req, res, next) {
+    const userId = res.locals.userData.id;
+    const urlId = req.params.id;
+
+    const { rows: dbUrls } = await urlRepository.selectUrlByIdFromUserId(userId, urlId);
+
+    if (!dbUrls.length) {
+        res.sendStatus(404);
+        return;
+    }
+
+    next();
+}
