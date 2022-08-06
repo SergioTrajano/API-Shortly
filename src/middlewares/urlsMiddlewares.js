@@ -55,3 +55,15 @@ export async function verifyIfUrlBelongsToUser(req, res, next) {
 
     next();
 }
+
+export async function verifyUserExistence(req, res, next) {
+    const userId = res.locals.userData.id;
+    const { rows: dbUsers } = await urlRepository.selectUserById(userId);
+
+    if (!dbUsers.length) {
+        res.sendStatus(404);
+        return;
+    }
+
+    next();
+}

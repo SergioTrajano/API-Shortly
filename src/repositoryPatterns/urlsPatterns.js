@@ -52,6 +52,33 @@ async function deleteUrlById(urlId) {
     `, [urlId]);
 }
 
+async function selectUserById(userId) {
+    return connection.query(`
+        SELECT * 
+        FROM users
+        WHERE id=$1
+    `, [userId]);
+}
+
+async function selectAllUsersUrls(userId) {
+    return connection.query(`
+        SELECT 
+            users.id as id,
+            users.name as name,
+            SUM("visitCount") as "visitCount",
+            json_agg(json_build_object(
+                'id', urls.id, 
+				'url', urls.url, 
+				'shortUrl', urls."shortUrl", 
+				'visitCount', urls."visitCount")) as "shortenedUrls"
+        FROM users
+        JOIN urls
+        ON users.id = urls."userId"
+        WHERE users.id = $1
+        GROUP BY users.id
+    `, [userId]);
+}
+
 export const urlRepository = {
     insertShortUrl,
     selectUrlById,
@@ -59,4 +86,6 @@ export const urlRepository = {
     increaseVisitCount,
     selectUrlByIdFromUserId,
     deleteUrlById,
+    selectUserById,
+    selectAllUsersUrls,
 }

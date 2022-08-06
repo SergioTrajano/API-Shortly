@@ -44,3 +44,11 @@ export async function deleteUrl(req, res) {
         res.sendStatus(500);
     }
 }
+
+export async function selectAllUsersUrls(req, res) {
+    const userId = res.locals.userData.id;
+
+    const { rows: dbUrls } = await urlRepository.selectAllUsersUrls(userId);
+
+    res.send(dbUrls).status(200);
+}
