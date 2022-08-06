@@ -18,3 +18,16 @@ export async function urlShorten(req, res) {
 export async function getUrlById(req, res) {
     res.send(res.locals.urlData).status(200);
 }
+
+export async function directShortUrlToUrl(req, res) {
+    const shortUrl = req.params.shortUrl;
+
+    try {
+        await urlRepository.increaseVisitCount(shortUrl);
+
+        res.redirect(res.locals.urlData.url);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}

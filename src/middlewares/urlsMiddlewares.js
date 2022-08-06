@@ -15,7 +15,22 @@ export async function validateShortenBody(req, res, next) {
 
 export async function verifyUrlId(req, res, next) {
     const id = parseInt(req.params.id);
-    const { rows: dbUrls } = await urlRepository.verifyUrlId(id);
+    const { rows: dbUrls } = await urlRepository.selectUrlById(id);
+
+    if (!dbUrls.length) {
+        res.sendStatus(404);
+        return;
+    }
+
+    res.locals.urlData = dbUrls[0];
+
+    next();
+}
+
+export async function verifyShortUrl(req, res, next) {
+    const shortUrl = req.params.shortUrl;
+
+    const { rows: dbUrls } = await urlRepository.selectUrlByShortUrl(shortUrl);
 
     if (!dbUrls.length) {
         res.sendStatus(404);

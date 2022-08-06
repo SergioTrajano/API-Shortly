@@ -8,7 +8,7 @@ async function insertShortUrl(url, shortUrl, id) {
     `, [url, shortUrl, id]);
 }
 
-async function verifyUrlId(id) {
+async function selectUrlById(id) {
     return connection.query(`
         SELECT 
             id,
@@ -19,7 +19,25 @@ async function verifyUrlId(id) {
     `, [id]);
 }
 
+async function selectUrlByShortUrl(shortUrl) {
+    return connection.query(`
+        SELECT url
+        FROM urls
+        WHERE "shortUrl"=$1
+    `, [shortUrl]);
+}
+
+async function increaseVisitCount(shortUrl) {
+    return connection.query(`
+        UPDATE urls 
+        SET "visitCount" = "visitCount" + 1 
+        WHERE "shortUrl"=$1
+    `, [shortUrl]);
+}
+
 export const urlRepository = {
     insertShortUrl,
-    verifyUrlId,
+    selectUrlById,
+    selectUrlByShortUrl,
+    increaseVisitCount,
 }
