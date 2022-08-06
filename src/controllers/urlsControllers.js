@@ -14,3 +14,7 @@ export async function urlShorten(req, res) {
         res.sendStatus(500);
     }
 }
+
+export async function getUrlById(req, res) {
+    res.send(res.locals.urlData).status(200);
+}
