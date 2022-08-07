@@ -49,7 +49,7 @@ export async function verifyIfUrlBelongsToUser(req, res, next) {
     const { rows: dbUrls } = await urlRepository.selectUrlByIdFromUserId(userId, urlId);
 
     if (!dbUrls.length) {
-        res.sendStatus(404);
+        res.sendStatus(401);
         return;
     }
 
