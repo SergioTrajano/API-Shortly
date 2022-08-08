@@ -25,5 +25,5 @@ export async function signIn(req, res) {
 
     const token = jwt.sign(res.locals.userData, secretKey);
 
-    res.send(token).status(200);
+    res.send({token, name: res.locals.userData.name}).status(200);
 }
