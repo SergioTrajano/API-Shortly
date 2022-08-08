@@ -6,7 +6,7 @@ export async function validateShortenBody(req, res, next) {
     const { error } = shortUrlSchema.validate(url);
 
     if (error) {
-        res.sendStatus(422);
+        res.status(422).send(error.details.map( c => c.message));
         return;
     }
 
