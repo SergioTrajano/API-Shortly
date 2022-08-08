@@ -50,5 +50,5 @@ export async function selectAllUsersUrls(req, res) {
 
     const { rows: dbUrls } = await urlRepository.selectAllUsersUrls(userId);
 
-    res.send(dbUrls).status(200);
+    res.send(dbUrls[0]).status(200);
 }
