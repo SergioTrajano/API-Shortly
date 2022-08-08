@@ -8,7 +8,7 @@ export async function urlShorten(req, res) {
     try {
         await urlRepository.insertShortUrl(req.body.url, shortenUrl, res.locals.userData.id);
 
-        res.send({shortenUrl}).status(201);
+        res.status(201).send({shortenUrl});
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
